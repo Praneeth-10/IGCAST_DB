@@ -118,7 +118,7 @@ function exportTableToCSV(filename) {
         }
         
         csv.push(row1.join(","));
-        console.log(i+" CSV-> "+csv);
+        //console.log(i+" CSV-> "+csv);
     }
 
     csv.push([]);
