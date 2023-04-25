@@ -1,0 +1,195 @@
+.App {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #ddd7d7;
+}
+  
+.SorbMutDB {
+    border-radius: 10px;
+    width: 900px;
+    height: 400px;
+}
+
+.SorbMutDB_logo {
+    height: 250px auto;
+    width: 240px;
+}
+  
+.sb {
+    display : "flex";
+    justify-content: "center";
+    margin-top : "20px";
+}
+
+.bg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bg2 {
+    border-radius: 10px;
+    display: flex;
+    background-color: #993023;;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 10px;
+}
+  
+.information {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 45px auto;
+    background-color: #ffffffb7;
+    padding: 10px 30px;
+    border-radius: 30px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+  
+.information input {
+    border-radius: 10px;
+    width: 300px;
+    height: 50px;
+    font-size: 25px;
+    padding-left: 10px;
+    border: none;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    color: #000000;
+    background-color: #ffffff;
+}
+
+.App .intro{
+    font-size: 20px;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    width: 940px;
+    align-content: center;
+    padding-top: 15px;
+}
+
+.App ._h1{
+    color : #ffffff;
+    font-size: 55px;
+    font-weight: bold;
+    font-family: cursive,'Gill Sans', 'Gill Sans MT', Calibri;
+    align-content: start;
+}
+
+.App label{
+    font-size: 20px;
+    font-weight: bolder;
+    font-family: Arial, sans-serif;
+    width: 940px;
+}
+
+.App button {
+    width: 300px;
+    height: 50px;
+    margin-top: 15px;
+    border-radius: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border: none;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.43);
+    transition: all 0.3s ease;
+}
+  
+.App button:hover {
+    cursor: pointer;
+    background-color: yellowgreen;
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.43);
+    transform: translateY(-3px);
+}
+  
+.App table {
+    border-collapse: collapse;
+    width: 90% auto;
+    height: auto;
+    background-color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    margin: auto;
+}
+  
+.App th,
+  td {
+    border: 1px solid lightgoldenrodyellow;
+    text-align: center;
+    padding: 2px;
+    font-size: 15px;
+    text-overflow: clip;
+    word-wrap: break-word;
+}
+  
+.App th {
+    background-color: darkgrey;
+}
+  
+.App td {
+    background-color: bisque;
+  }
+
+.App td:hover {
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
+
+.App ul {
+    list-style-type: none;
+    padding: 10px;
+    margin : 75px auto;
+    margin-top: 20px;
+}
+  
+.App li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    word-wrap: break-word;
+    background-color: #fafafa;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    box-shadow: 0 2px 20px rgba(0,0,0,.2);
+    transition: all .3s ease-in-out;
+}
+
+.App li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 5px rgba(0,0,0,.3);
+}
+  
+.App ul li:nth-child(odd) {
+    background-color: #a9a6a6;
+}
+
+.App a{
+    color: blue;
+    text-decoration: underline;
+}
+
+.App a:hover{
+    color: rgb(93, 173, 226);
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+}
+
+.App #toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    font-size: 18px;
+    padding: 20px 30px;
+    border-radius: 15px;
+    z-index: 9999;
+    transition: 2s ease-in-out;
+    transition-delay: 0.1s;
+    opacity: 0.8;
+  }
+  
