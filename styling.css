@@ -3,6 +3,7 @@
     flex-direction: column;
     justify-content: center;
     background-color: #ddd7d7;
+    overflow-x: auto;
 }
   
 .SorbMutDB {
