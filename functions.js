@@ -14,7 +14,7 @@ function copy(emailAddr) {
       .then(function() {
             const toast = document.getElementById("toast");
             toast.innerText = "Email address copied!";
-            toast.style.display = "block";
+            toast.style.display = "inline";
             setTimeout(() => {
             toast.style.display = "none";
             }, 3000);

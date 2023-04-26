@@ -64,6 +64,8 @@
 }
 
 .App ._h1{
+    line-height: initial;
+    margin: 10px;
     color : #ffffff;
     font-size: 55px;
     font-weight: bold;
@@ -171,15 +173,23 @@
     transition: all .3s ease-in-out;
 }
 
+.App .toast-message {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+  }
+
 .App #toast {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    position: absolute;
+    margin: 0px;
+    top: -11px;
     background-color: #333;
     color: #fff;
     font-size: 18px;
-    padding: 20px 30px;
+    padding: 10px 20px;
     border-radius: 15px;
     z-index: 9999;
     transition: 2s ease-in-out;
