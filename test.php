@@ -15,9 +15,6 @@
 			</div>
         </div>
 		
-        <div class="bg">
-          <img class ="SorbMutDB" alt="SorbMutDB_Img" src="https://www.depts.ttu.edu/igcast/Genome_test/SorbMutDB.jpg"/>
-        </div>
         <form method="post" class = "bg">
 			<p class="intro"><b>SorbMutDB</b> provides information on the sequence indexed EMS-induced mutations of 1,000 Sorghum mutant lines in the genetic background of the reference genome line Btx623. To provide a solid platform, SorbMutDB maintains a sizable collection of mutation-related data and its impact at the amino acid level in an adaptive framework. Information provided includes the details about the mutant plant line with its ID information, chromosome, location, the function of the gene in Arabidopsis thaliana and Rice (Oryza sativa), the number of mutants affected and a number of alleles, and a detailed summary of mutation type (such synonymous, synonymous-synonymous, coding, or non-coding, the altered amino acids, and whether it is heterozygous or homozygous, along with SIFT (Sorting Intolerant from Tolerant) score.</p>
 			<div class="toast-message">
@@ -26,7 +23,7 @@
 			</div>
 			<input type="text" name="search" id= "inp2" pattern = "(^Sobic\.[A-Z\d]{10}$)|(^Sb[a-z\d]{9}$)" required="true"
 				placeholder="e.g. Sobic.001G006700" style="margin-top: 15px"/>
-			<label>Users start by browsing a list of genes or using a specific gene identifier to search the database <br/>(e.g., <em>"Sobic.001G006700"</em> or <em>"Sb01g004380"</em> with sorghum BTx623 reference genome v3.1.1).</label>
+			<label style="text-align:justify;">Users start by browsing a list of genes or using a specific gene identifier to search the database <br/>(e.g., <em>"Sobic.001G006700"</em> or <em>"Sb01g004380"</em> with sorghum BTx623 reference genome v3.1.1 and V1.4 gene_id).</label>
 			<button type="submit" name="submit" value="Search"> Mutation Summary</button>
         </form>
     </div>
