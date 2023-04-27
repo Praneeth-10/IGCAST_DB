@@ -10,7 +10,7 @@
 	<div class="information">
 		<div class="bg">
 			<div class="bg2" style="margin-bottom:10px;">
-				<img class ="SorbMutDB_logo" alt="SorbMutDB_logo" src="logo_SorbMutDB.png"/>
+				<img class ="SorbMutDB_logo" alt="SorbMutDB_logo" src="https://www.depts.ttu.edu/igcast/Genome_test/SorbMutDB_logo.png"/>
 				<p class="_h1" style="padding:10px;">SorbMutDB <br/>(Sorghum bicolor Mutation Database)</p>
 			</div>
         </div>
