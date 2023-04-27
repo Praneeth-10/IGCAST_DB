@@ -5,12 +5,6 @@
     background-color: #ddd7d7;
     overflow-x: auto;
 }
-  
-.SorbMutDB {
-    border-radius: 10px;
-    width: 	1200px;
-    height: 222px;
-}
 
 .SorbMutDB_logo {
     height: 250px auto;
@@ -57,7 +51,8 @@
 }
 
 .App .intro{
-    font-size: 20px;
+	font-size:25px;
+    text-align:justify;
     font-family:Georgia, 'Times New Roman', Times, serif;
     width: 940px;
     align-content: center;
