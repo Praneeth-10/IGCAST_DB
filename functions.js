@@ -22,46 +22,87 @@ function copy(emailAddr) {
       .catch(function(error) {
         console.error('Failed to copy text: ', error);
       });
+
+    // Creating a mailto link for the copied email address
+    var mailtoLink = "mailto:" + emailAddr;
+
+    // Opening mailbox in a new tab
+    window.open(mailtoLink, "_blank");
   }
 
 // Displaying the Mutation Data
-function displayFunc(myJSData){
-    //accessing the myJSData from the main page .php
+function displayFunc(mutID,myJSData){
+    //Accessing the myJSData and mutID from the main page .php
     if(myJSData !== ""){
-        //adding a division for showing the Mutation Data
-		var downloadDiv = document.createElement("div");
-		downloadDiv.setAttribute("id","submission-list");
-        document.getElementById("tableID").after(downloadDiv);
-        //adding Download Button
-        showDownload();
+
+        // Creating a Table with Table head first
+        var table = document.createElement("table");
+
+        // Getting the heading variable and would split into the table head
+        var headRow = "V3_ID; Mutant_ID; SNP_location; Mutation_effect; Amino_acid_change; Homozyhous or Hetrozygous; Low read depth; SIFT score; SIFT median; Ref_allele; Alt_allele";
+
+        // Spliting the Head row into columns and adding it to <th> element
+        headColumns = headRow.split(";");
+
+        // Creating table head and table row for a table
+        var thead = document.createElement("thead");
+        var tr = document.createElement("tr");
+
+        for(var i = 0; i < headColumns.length; i++)
+        {
+            var th = document.createElement("th");
+            th.textContent = headColumns[i].trim();
+            tr.appendChild(th);
+        }
+
+        // Adding the Head row to the table head
+        thead.appendChild(tr);
+        
+        // Append the table head to the table
+        table.appendChild(thead);
+
+        // Creating table head and table row for a table
+        var tBody = document.createElement("tbody");
 
         // Splitting the one Mutation Detail data into an array
         var mutData = myJSData.split("||");
 
-        // Creating a new <ul> element
-        var list = document.createElement("ul");
+        for (var i = 0; i < mutData.length-1; i++) {
+            var tr = document.createElement("tr");
+            var Id = document.createElement("td");
+            Id.textContent = mutID.trim();
+            tr.appendChild(Id);
 
-        // Creating a headerfor the Mutation
-        var newList = document.createElement("li");
-        newList.innerText = "Mutant_ID; SNP_location; mutation_effect; amino_acid_change;homozyhous or hetrozygous;low read depth;SIFT score;SIFT median;Ref_allele;Alt_allele";
-        newList.style.fontSize = "16px";
-        newList.style.fontWeight = "bold";
-        newList.style.backgroundColor = "black";
-        newList.style.color = "white";
-        list.appendChild(newList);
+            var mutDetail = mutData[i].split(";");
 
-        // Adding the mutation array data to a new <li> element
-        for (var i = 0; i < mutData.length-1; i++) 
-            {
-                var newList = document.createElement("li");
-                newList.innerText = mutData[i];
-                list.appendChild(newList);
+            for(var j = 0; j < headColumns.length-1; j++){
+                if(mutDetail[j]){
+                    var td = document.createElement("td");
+                    td.textContent = mutDetail[j].trim();
+                    tr.appendChild(td);
+                }
+                else{
+                    var td = document.createElement("td");
+                    td.textContent = "";
+                    tr.appendChild(td);
+                }       
             }
-
-            // Adding <ul> to the parent page
-            document.getElementById("submission-list").appendChild(list);
+            tBody.appendChild(tr);
         }
+
+        table.appendChild(tBody);
+
+        document.getElementById("submission-list").appendChild(table);
+    }
         
+}
+
+// Adding a division for showing the Mutation Data
+function newDiv(){
+	var downloadDiv = document.createElement("div");
+	downloadDiv.setAttribute("id","submission-list");
+    document.getElementById("tableID").after(downloadDiv);
+
 }
 
 function showDownload(){
@@ -74,9 +115,10 @@ function showDownload(){
         // Calling the export function
         exportTableToCSV('myTable.csv');
     };
+    newButton.style.marginBottom = "10px";
 
     // Adding the button to the parent page
-    document.getElementById("submission-list").appendChild(newButton);
+    document.getElementById("submission-list").before(newButton);
 }
 
 function downloadCSV(csv, filename) {
@@ -89,7 +131,7 @@ function downloadCSV(csv, filename) {
     // Creating a dummy Download link
     downloadLink = document.createElement("a");
 
-    // assigning the File name from the function call
+    // Assigning the File name from the function call
     downloadLink.download = filename;
 
     // Creating a link to the csv file
@@ -101,17 +143,17 @@ function downloadCSV(csv, filename) {
     // Adding link to the main page
     document.body.appendChild(downloadLink);
 
-    // automating the download link
+    // Automating the download link
     downloadLink.click();
 }
 
 function exportTableToCSV(filename) {
     var csv = [];
-    var rows = document.querySelectorAll("table tr");
+    var rows = document.querySelectorAll(".App table tr");
 
     //console.log(rows);
     for (var i = 0; i < rows.length; i++) {
-        var row1 = [], cols = rows[i].querySelectorAll("td, th");
+        var row1 = [], cols = rows[i].querySelectorAll(".App td, th");
 
         for (var j = 0; j < cols.length; j++) {
             row1.push('"' + cols[j].innerText + '"');
@@ -120,16 +162,8 @@ function exportTableToCSV(filename) {
         csv.push(row1.join(","));
         //console.log(i+" CSV-> "+csv);
     }
-
     csv.push([]);
 
-    var list = document.querySelector(".App ul");
-    var items = list.querySelectorAll(".App li");
-
-    for (var i = 0; i < items.length; i++) {
-        var row2 = ['"'+items[i].textContent.trim()+'"'];
-        csv.push(row2.join(","));
-    }
 
     // Download CSV file
     downloadCSV(csv.join("\n"), filename);
