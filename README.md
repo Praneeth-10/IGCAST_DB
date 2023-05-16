@@ -10,10 +10,11 @@ Then after successfully testing copy the code onto the SorbMutDB.pcf file outsid
 
 
 use below credentials to connect to TTU MySQL Server.
+```
 --Server: ttumysql.tosm.ttu.edu
 --Port: 3306
 --Schema: igcast
 --User: igcast_user
 --Pass: J8mG4878UCdP
-
+```
 or for running locally just use localhost connection settings.
