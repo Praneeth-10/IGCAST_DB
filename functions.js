@@ -37,9 +37,9 @@ function displayFunc(mutID,myJSData){
 
         // Creating a Table with Table head first
         var table = document.createElement("table");
-
+        table.style.marginTop = "15px";
         // Getting the heading variable and would split into the table head
-        var headRow = "V3_ID; Mutant_ID; SNP_location; Mutation_effect; Amino_acid_change; Homozyhous or Hetrozygous; Low read depth; SIFT score; SIFT median; Ref_allele; Alt_allele";
+        var headRow = "V3_ID; Mutant_ID; SNP_location; Mutation_effect; Amino_acid_change; Homozyhous or Hetrozygous; SIFT score; Ref_allele; Alt_allele";
 
         // Spliting the Head row into columns and adding it to <th> element
         headColumns = headRow.split(";");
@@ -92,16 +92,16 @@ function displayFunc(mutID,myJSData){
 
         table.appendChild(tBody);
 
-        document.getElementById("submission-list").appendChild(table);
+        document.getElementById(mutID).after(table);
     }
         
 }
 
 // Adding a division for showing the Mutation Data
-function newDiv(){
+function newDiv(tableId){
 	var downloadDiv = document.createElement("div");
 	downloadDiv.setAttribute("id","submission-list");
-    document.getElementById("tableID").after(downloadDiv);
+    document.getElementById(tableId).after(downloadDiv);
 
 }
 
@@ -109,6 +109,7 @@ function showDownload(){
     // Creating a Button to download the displayed Data only if Data is present
     var newButton = document.createElement("button");
     newButton.setAttribute("id","downloadBtn");
+    newButton.setAttribute("class","mutationBtn");
     newButton.innerText = "Download the Data";
 
     newButton.onclick = function() {
@@ -118,7 +119,7 @@ function showDownload(){
     newButton.style.marginBottom = "10px";
 
     // Adding the button to the parent page
-    document.getElementById("submission-list").before(newButton);
+    document.getElementById("submission-list").appendChild(newButton);
 }
 
 function downloadCSV(csv, filename) {

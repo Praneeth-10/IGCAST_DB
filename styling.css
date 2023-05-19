@@ -28,7 +28,7 @@
 }
   
 .App .information {
-    display: flex;
+        display: flex;
     flex-direction: column;
     width: 90%;
     justify-content: center;
@@ -37,7 +37,7 @@
     padding: 10px 30px;
     border-radius: 30px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-}
+    }
   
 .App .information input {
     border-radius: 10px;
@@ -80,7 +80,7 @@
     word-wrap: break-word;
 }
 
-.App button {
+.App .mutationBtn {
     width: 300px;
     height: 50px;
     margin-top: 15px;
@@ -95,7 +95,7 @@
     transition: all 0.3s ease;
 }
   
-.App button:hover {
+.App .mutationBtn:hover {
     cursor: pointer;
     background-color: yellowgreen;
     box-shadow: 0 4px 5px rgba(0, 0, 0, 0.43);
@@ -104,12 +104,11 @@
   
 .App table {
     border-collapse: collapse;
-    width: 90%;
+    width: 96%;
     margin: 20px auto;
     height: auto;
     background-color: #fff;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    margin: auto;
 }
   
 .App th,
@@ -169,4 +168,13 @@
     transition-delay: 0.1s;
     opacity: 0.8;
   }
+
+.App{
+    .tableMain {
+        margin-top: 10px;
+    }
+}
   
+.accordion {
+    padding: 0px 40px 10px 40px;
+}
