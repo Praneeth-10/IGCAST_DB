@@ -28,7 +28,7 @@
 }
   
 .App .information {
-        display: flex;
+    display: flex;
     flex-direction: column;
     width: 90%;
     justify-content: center;
@@ -134,12 +134,12 @@
     cursor: pointer;
 }
 
-.App a{
+.App .mailId{
     color: blue;
     text-decoration: underline;
 }
 
-.App a:hover{
+.App .mailId:hover{
     color: rgb(93, 173, 226);
     cursor: pointer;
     transition: all .3s ease-in-out;
@@ -177,4 +177,10 @@
   
 .accordion {
     padding: 0px 40px 10px 40px;
+}
+
+.infoIcon {
+    align-self: center;
+    padding-left: 0px;
+    margin-left: 0px
 }
