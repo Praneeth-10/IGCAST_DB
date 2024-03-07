@@ -1,137 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Search Results</title>
-    <link rel="stylesheet" type="text/css" href="styling.css"/>
+ <!--Load the AJAX API-->
+ <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Mushrooms', 3],
+          ['Onions', 1],
+          ['Olives', 1],
+          ['Zucchini', 1],
+          ['Pepperoni', 2]
+        ]);
+
+        // Set chart options
+        var options = {'title':'How Much Pizza I Ate Last Night',
+                       'width':400,
+                       'height':300};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  	<title>Search Results</title>
+	<link rel="stylesheet" type="text/css" href="styling.css"/>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="functions.js"></script>
 </head>
 <body class="App" >
-	<div class="information">
-		<div class="bg">
-			<div class="bg2" style="margin-bottom:10px;">
-				<img class ="SorbMutDB_logo" alt="SorbMutDB_logo" src="https://www.depts.ttu.edu/igcast/Genome_test/SorbMutDB_logo.png"/>
-				<p class="_h1" style="padding:10px;">SorbMutDB <br/>(Sorghum bicolor Mutation Database)</p>
-			</div>
-        </div>
-		
-        <form method="post" class = "bg">
-			<p class="intro"><b>SorbMutDB</b> provides information on the sequence indexed EMS-induced mutations of 1,000 Sorghum mutant lines in the genetic background of the reference genome line Btx623. To provide a solid platform, SorbMutDB maintains a sizable collection of mutation-related data and its impact at the amino acid level in an adaptive framework. Information provided includes the details about the mutant plant line with its ID information, chromosome, location, the function of the gene in Arabidopsis thaliana and Rice (Oryza sativa), the number of mutants affected and a number of alleles, and a detailed summary of mutation type with the SIFT (Sorting Intolerant from Tolerant) score.</p>
-			<div class="toast-message">
-				<h4 style="font-size:150%; text-align:center; word-wrap: break-word; width: 80%;">To request seeds of the mutants, please email: <a onclick="copy('Zhanguo.Xin@ttu.edu')">Dr. Zhanguo Xin</a> or <a onclick="copy('yijiao@ttu.edu')">Dr. Yinping Jiao</a>.</h4>
-				<div id="toast" style="display: none"></div>
-			</div>
-			<input type="text" name="search" id= "inp2" pattern = "^(Sobic\.[A-Z0-9]{10})(?:,?(Sobic\.[A-Z0-9]{10}))*$|^(Sb[a-z0-9]{9})(,(Sb[a-z0-9]{9}))*$" required="true"
-				placeholder="e.g. Sobic.001G006700" style="margin-top: 15px"/>
-			<label style="text-align:justify;">Users start by browsing a list of genes or using a specific gene identifier to search the database <br/>(e.g., <em>"Sobic.001G006700"</em> or <em>"Sb01g004380"</em> with sorghum BTx623 reference genome v3.1.1 and V1.4 gene_id).</label>
-			<button type="submit" name="submit" value="Search"> Mutation Summary</button>
-        </form>
-    </div>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 	
-	<hr width="100%" height="10px" color="red" />
-
-	<?php
-	// Credentials to connect to Database
-	$host = "localhost";
-	$user = "natsu";
-	$password = "12#\$qwER";
-	$database = "igcast_main";
-
-    //echo $password;
-	// Connecting to the database
-	$connection = mysqli_connect($host, $user, $password, $database);
-
-	// checking connection
-	if (!$connection) {
-		die("Connection failed: " . mysqli_connect_error());
-	}
-    else
-    {
-        echo '<script>console.log("connection establiashed"); </script>';
-    }
-
-    
-	// check if the search button is clicked
-	if (isset($_POST['submit'])) {
-
-		$searchrr = $_POST['search'];
-		$pattern = "/^(Sobic\.[A-Z0-9]{10})(?:,?(Sobic\.[A-Z0-9]{10}))*$/";
-		$search = mysqli_real_escape_string($connection, $searchrr);
-		if(preg_match($pattern,$searchrr))
-		{
-			//echo '<script>console.log("'.$search.' + ifcase"); </script>';
-			$searchArr = explode(',',$search);
-			$searchStr = implode("','", $searchArr);
-			// search query for V3 gene ID
-			$sql = "SELECT * FROM igcast_db_main WHERE V3_1_1_gene_id IN ('$searchStr')";
-		}
-		else
-		{
-			//echo '<script>console.log("'.$searchrr.' + elsecase"); </script>';
-			$searchArr = explode(',',$search);
-			$searchStr = implode("','", $searchArr);
-			// search query for V1 gene ID
-			$sql = "SELECT * FROM igcast_db_main WHERE V1_4_gene_id IN ('$searchStr')";
-		}
-
-		// fetching the Data from he SQL Table
-		$result = mysqli_query($connection, $sql);
-
-		// display search results
-		if (mysqli_num_rows($result) > 0) {
-			echo '<script>console.log("Data Fetched");</script>';
-			echo "<table class=tableMain id = 'tableID'>";
-			echo "<tr>
-					<th>#V1.4 Gene.Id:</th>
-					<th>#V3.1.1 Gene Id:</th>
-					<th>Function in Arabidopsis (i)</th>
-                	<th>Function in Arabidopsis (ii)</th>
-                	<th>Function in Araidopsis (iii)</th>
-                	<th>Function in Rice (i)</th>
-                	<th>Function in Rice (ii)</th>
-                	<th>No. of Mutants</th>
-                	<th>No. of Alleles</th>
-				</tr>";
-			echo '<script>newDiv();</script>';
-			while ($row = mysqli_fetch_assoc($result)) {
-				echo "<tr>
-						<td class=check>" . $row['V1_4_gene_id'] ."</td>
-						<td class=check>" . $row['V3_1_1_gene_id']. "</td>
-						<td class=check>" . $row['Function_in_Arabidopsis_i']. "</td>
-						<td class=check>" . $row['Function_in_Arabidopsis_ii']. "</td>
-						<td class=check>" . $row['Function_in_Arabidopsis_iii']. "</td>
-						<td class=check>" . $row['Function_in_Rice_i']. "</td>
-						<td class=check>" . $row['Function_in_Rice_ii']. "</td>
-						<td class=check>" . $row['No_of_Mutants']. "</td>
-						<td class=check>" . $row['No_of_Alleles']. "</td>
-					</tr>";
-				
-				// Encoding the Data as a JSON String
-				$mutData = json_encode($row['Mutation_Detail']);
-
-				// Pass the PHP variable holding the JSON String to a JavaScript variable
-				if (isset($mutData))
-					echo "<script>
-					displayFunc('".$row['V3_1_1_gene_id']."',".$mutData.");
-					</script>";
-			}
-
-			// Closing the table
-			echo "<script>showDownload();</script></table>";
-		} 
-		else 
-		{
-			// If no result is found
-			echo "<center><font size=+2><b>No results found. </b></font><center>";
-		}	
-	}
-
+	<div id="mainContent" class="mainContent">
 	
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-	// Closing the connection
-	mysqli_close($connection);
-	?>
+<div id="chart_div"></div>
+		<div class="filterContiner">
+			<form class="row gy-2 gx-3 align-items-center" >
+				<div class="col-auto">
+					<div class="input-group">
+						<div class="input-group-text">Formula:</div>
+						<input type="text" class="form-control" name="formula" id="autoSizingInputGroup" placeholder="Eg: C6H12O6">
+						</div>
+					</div>
+				<div class="col-auto">
+					<div class="input-group">
+						<div class="input-group-text">Name:</div>
+						<input type="text" class="form-control" name="name" id="autoSizingInputGroup" placeholder="Eg: Dimethyl Phthalate">
+					</div>
+				</div>
+				<div class="col-auto">
+					<div class="input-group">
+						<div class="input-group-text">PI Number:</div>
+						<input type="text" class="form-control" name="pId" id="autoSizingInputGroup" placeholder="Eg: PI534123 03">
+					</div>
+				</div>
+				<div class="col-auto">
+					<button type="submit" name="submit"  class="btn btn-success btn-sm" onclick="fetchData()">
+					<i class="fas fa-search"></i> Search
+					</button>
+				</div>
+			</form>
+		</div>
+		<div> This is some sample data</div>
+		<div>
+			<nav aria-label="Page navigation example">
+				<ul class="pagination justify-content-end">
+					<!-- <li class="page-item">
+					<a class="page-link" href="#" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+					</li>
+					<li class="page-item">
+					<a class="page-link" href="#" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+					</li> -->
+				</ul>
+			</nav>
+		</div>
+		<div class="table-responsive tableContainer">
+			<table class="table table-striped">
+				<thead id="tableHeader">
+				<tr>
+						<th scope="col">Formula</th>
+						<th scope="col">Name</th>
+						<th scope="col">Molecular Weight</th>
+						<th scope="col">RT Min</th>
+						<th scope="col">Area Max</th>
+					</tr>
+				</thead>
+				<tbody class="tableBody" id="tableBody">
 
+				</tbody>
+			</table>
+		</div>
+		<div class="row">
+			
+			<div class="col" style="display:flex">
+				<div>
+				Showing 1 to 10 of 250 entries
+				</div>
+				<div>
+					<select class="form-select" aria-label="Default select example">
+						<option value="10" selected>10</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+						<option value="200">500</option>
+					</select>
+				</div>	
+			</div>
+			<div class="col-8">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-end">
+						<li class="page-item">
+						<a class="page-link" href="#" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+						</a>
+						</li>
+						<li class="page-item">
+						<a class="page-link" href="#" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+// Initialize tooltips
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+</script>
 </body>
 <script src="functions.js"></script>
 </html>

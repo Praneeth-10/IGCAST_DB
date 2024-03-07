@@ -1,172 +1,55 @@
-.App {
+
+.mainContent{
+    /* height: 200px; */
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color: #ddd7d7;
-    overflow-x: auto;
-    word-wrap: break-word;
-}
-
-.App .SorbMutDB_logo {
-    height: 250px auto;
-    width: 240px;
-}
-
-.App .bg {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.App .bg2 {
+    background-color: white;
+    margin: 20px;
+    border: 1px solid black;
     border-radius: 10px;
-    display: flex;
-    background-color: #993023;;
-    flex-direction: row;
-    align-items: center;
-    padding: 0px 10px;
-}
-  
-.App .information {
-    display: flex;
+    padding:10px;
     flex-direction: column;
-    width: 90%;
-    justify-content: center;
-    margin: 45px auto;
-    background-color: #ffffffb7;
-    padding: 10px 30px;
-    border-radius: 30px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-}
-  
-.App .information input {
-    border-radius: 10px;
-    width: 300px;
-    height: 50px;
-    font-size: 25px;
-    padding-left: 10px;
-    border: none;
-    margin-bottom: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    color: #000000;
-    background-color: #ffffff;
 }
 
-.App .intro{
-	font-size:25px;
-    text-align:justify;
-    font-family:Georgia, 'Times New Roman', Times, serif;
-    width: 80%;
-    align-content: center;
-    padding-top: 15px;
-    word-wrap: break-word;
-}
-
-.App ._h1{
-    line-height: initial;
-    margin: 10px;
-    color : #ffffff;
-    font-size: 55px;
-    font-weight: bold;
-    font-family: cursive,'Gill Sans', 'Gill Sans MT', Calibri;
-    align-content: start;
-}
-
-.App label{
-    font-size: 20px;
-    font-weight: bolder;
-    font-family: Arial, sans-serif;
-    width: 80%;
-    word-wrap: break-word;
-}
-
-.App button {
-    width: 300px;
-    height: 50px;
-    margin-top: 15px;
-    border-radius: 20px;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    font-size: 16px;
-    border: none;
-    letter-spacing: 0.5px;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.43);
-    transition: all 0.3s ease;
-}
-  
-.App button:hover {
-    cursor: pointer;
-    background-color: yellowgreen;
-    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.43);
-    transform: translateY(-3px);
-}
-  
-.App table {
-    border-collapse: collapse;
-    width: 90%;
-    margin: 20px auto;
-    height: auto;
-    background-color: #fff;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    margin: auto;
-}
-  
-.App th,
-  td {
-    border: 1px solid lightgoldenrodyellow;
-    text-align: center;
-    padding: 3px;
-    font-size: 15px;
-    text-overflow: clip;
-    word-wrap: break-word;
-}
-  
-.App th {
-    background-color: darkgrey;
-}
-  
-.App td {
-    background-color: bisque;
-  }
-
-.App td:hover {
-    background-color: #e0e0e0;
-    cursor: pointer;
-}
-
-.App a{
-    color: blue;
-    text-decoration: underline;
-}
-
-.App a:hover{
-    color: rgb(93, 173, 226);
-    cursor: pointer;
-    transition: all .3s ease-in-out;
-}
-
-.App .toast-message {
+.has-search {
     position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-content: center;
-    align-items: center;
-  }
-
-.App #toast {
-    position: absolute;
-    margin: 0px;
-    top: -11px;
-    background-color: #333;
-    color: #fff;
-    font-size: 18px;
-    padding: 10px 20px;
-    border-radius: 15px;
-    z-index: 9999;
-    transition: 2s ease-in-out;
-    transition-delay: 0.1s;
-    opacity: 0.8;
   }
   
+  .has-search .form-control {
+    padding-right: 2.375rem;
+  }
+  
+  .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+    right: 0;
+    top: 0;
+    /* display: flex;
+    align-items: center;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--bs-body-color);
+    text-align: center;
+    white-space: nowrap; */
+  }
+
+  .tableContainer{
+    margin-top: 10px;
+  }
+
+  .filterContiner{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  th {
+    width:10%
+  }
