@@ -1,118 +1,214 @@
-// If the cells are empty, displaying NA value
-document.querySelectorAll(".check").forEach(function (obj) {
-    if (obj.innerText.trim() === "") {
-        obj.innerText = "NA";
-    }
-});
 
-// For making the Id searched global in this file
-var temp;
-
-// For copying the Email addresses of professors
-function copy(emailAddr) {
-    navigator.clipboard.writeText(emailAddr)
-      .then(function() {
-            const toast = document.getElementById("toast");
-            toast.innerText = "Email address copied!";
-            toast.style.display = "inline";
-            setTimeout(() => {
-            toast.style.display = "none";
-            }, 3000);
-        })
-      .catch(function(error) {
-        console.error('Failed to copy text: ', error);
-      });
-
-    // Creating a mailto link for the copied email address
-    var mailtoLink = "mailto:" + emailAddr;
-
-    // Opening mailbox in a new tab
-    window.open(mailtoLink, "_blank");
-  }
-
-// Displaying the Mutation Data
-function displayFunc(mutID,myJSData){
-    //Accessing the myJSData and mutID from the main page .php
-    if(myJSData !== ""){
-
-        // Creating a Table with Table head first
-        var table = document.createElement("table");
-        table.style.marginTop = "15px";
-        // Getting the heading variable and would split into the table head
-        var headRow = "V3_ID; Mutant_ID; SNP_location; Mutation_effect; Amino_acid_change; Homozyhous or Hetrozygous; SIFT score; Ref_allele; Alt_allele";
-
-        // Spliting the Head row into columns and adding it to <th> element
-        headColumns = headRow.split(";");
-
-        // Creating table head and table row for a table
-        var thead = document.createElement("thead");
-        var tr = document.createElement("tr");
-
-        for(var i = 0; i < headColumns.length; i++)
-        {
-            var th = document.createElement("th");
-            th.textContent = headColumns[i].trim();
-            tr.appendChild(th);
+function fetchData() {debugger;
+    currentPage = 1;
+    // Fetch data from fetch_data.php using AJAX
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'fetch.php?page=' + currentPage, true);
+    xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            // Parse JSON response
+            records = JSON.parse(xhr.responseText);
+            console.log("response::::", records)
+            createLayout(records);
+            // renderPagination();
+        } else {
+            console.error('Failed to fetch data');
         }
+    };
+    xhr.onerror = function () {
+        console.error('Failed to fetch data');
+    };
+    xhr.send();
+}
 
-        // Adding the Head row to the table head
-        thead.appendChild(tr);
-        
-        // Append the table head to the table
-        table.appendChild(thead);
+// Initial fetching of data and rendering pagination
+fetchData();
 
-        // Creating table head and table row for a table
-        var tBody = document.createElement("tbody");
+function createLayout(response, searchCol, col) {
+    renderTable(response, searchCol, col)
+    // call pagination function to create layout for it
+//paginationLayout(response,searchCol, col)
+    
 
-        // Splitting the one Mutation Detail data into an array
-        var mutData = myJSData.split("||");
+}
 
-        for (var i = 0; i < mutData.length-1; i++) {
-            var tr = document.createElement("tr");
-            var Id = document.createElement("td");
-            Id.textContent = mutID.trim();
-            tr.appendChild(Id);
+function renderTable(res, searchCol, col,itemsPerPage,page){
+    console.log("response:::::::::",res, searchCol, col,itemsPerPage,page)
+    // var startIndex = (page - 1) * itemsPerPage;
+    // var endIndex = startIndex + itemsPerPage;
+    var response = res;//res.slice(startIndex, endIndex);
 
-            var mutDetail = mutData[i].split(";");
+    let headKeys = ["formula", "formulaName", "molecularWeight", "rtMin", "areaMax"];
+    if (document.getElementById("#tableBody")) {
+        document.getElementById("#tableBody").remove();
+    }
+console.log("after slice", response)
+    if (searchCol === "name" || searchCol === "formula") {
+        let table = document.querySelector("table");
+        table.deleteTHead();
+        for (const [key, value] of Object.entries(response[0])) {
+            let tr = document.createElement("tr");
+            var headKey = document.createElement("td");
+            headKey.textContent = key;
+            tr.appendChild(headKey);
+            var headVal = document.createElement("td");
+            headVal.textContent = value;
+            tr.appendChild(headVal);
+            document.getElementById("tableBody").appendChild(tr);
+        }
+    } else {
+        let header = ["PI534123_03", "PI534124_02", "PI534127_03"]
+        if (searchCol === "pId") {
+            console.log("pid", col)
+            headKeys.push(col);
+            header = [col]
+        } else {
+            headKeys = headKeys.concat(["PI534123_03", "PI534124_02", "PI534127_03"])
+        }
+        createHeader(header);
+        for (let i = 0; i < response.length; i++) {
+            let tr = document.createElement("tr");
+            for (let j = 0; j < headKeys.length; j++) {
 
-            for(var j = 0; j < headColumns.length-1; j++){
-                if(mutDetail[j]){
-                    var td = document.createElement("td");
-                    td.textContent = mutDetail[j].trim();
-                    tr.appendChild(td);
-                }
-                else{
-                    var td = document.createElement("td");
-                    td.textContent = "";
-                    tr.appendChild(td);
-                }       
+                let td = document.createElement("td");
+                td.textContent = response[i][headKeys[j]];
+                tr.appendChild(td);
             }
-            tBody.appendChild(tr);
+            document.getElementById("tableBody").appendChild(tr);
         }
-
-        table.appendChild(tBody);
-
-        document.getElementById(mutID).after(table);
     }
-        
+}
+function createHeader(headerArr) {
+    for (let j = 0; j < headerArr.length; j++) {
+        let head = headerArr[j].replace(/_/g, ' ');
+        // Select the table head element
+        var tableHead = document.querySelector("#tableHeader > tr");
+
+        // Create a new th element
+        var newTh = document.createElement("th");
+        newTh.textContent = head; // Set the text content of the new th element
+
+        // Append the new th element to the table head row
+        tableHead.appendChild(newTh);
+    }
 }
 
-// Adding a division for showing the Mutation Data
-function newDiv(tableId){
-	var downloadDiv = document.createElement("div");
-	downloadDiv.setAttribute("id","submission-list");
-    document.getElementById(tableId).after(downloadDiv);
+function paginationLayout(items,searchCol, col,currentPage) {
+    var currentPage = currentPage ? currentPage :1;
+        var itemsPerPage = 10;
+        var paginationWindow = 5;
+    var totalPages = Math.ceil(items.length / itemsPerPage);
+    var paginationContainer = document.querySelectorAll(".pagination");
+    
 
+    var startPage = Math.max(1, currentPage - Math.floor(paginationWindow / 2));
+    var endPage = Math.min(totalPages, startPage + paginationWindow - 1);
+    paginationContainer.forEach(function(div) {
+        div.innerHTML = "";
+    // if (startPage > 1) {
+        var newLi = document.createElement('li');
+        newLi.className = 'page-item'; // Set the class name for the new li
+        var newAnchor = document.createElement('a');
+        newAnchor.className = 'page-link'; // Set the class name for the new anchor link
+        newAnchor.href = '#'; 
+        newAnchor.setAttribute("aria-label", "Previous");
+       
+        var span = document.createElement("span");
+        span.setAttribute("aria-hidden", "true");
+        span.textContent = "«"; // This is the &laquo; symbol
+        newAnchor.appendChild(span);
+        newLi.appendChild(newAnchor);
+        newLi.addEventListener("click", function(event) {
+            event.preventDefault();
+            currentPage--;
+           // renderTable(currentPage);
+           // paginationLayout();
+        });
+        div.appendChild(newLi);
+    // }
+
+    for (var i = startPage; i <= endPage; i++) {
+        var newLi = document.createElement('li');
+        newLi.className = 'page-item'; // Set the class name for the new li
+        var newAnchor = document.createElement('a');
+        newAnchor.className = 'page-link'; // Set the class name for the new anchor link
+        newAnchor.href = '#'; // Set the href attribute for the anchor link
+        newAnchor.textContent = i; // Set the text content for the anchor link
+        newLi.appendChild(newAnchor);
+       
+        //pageLink.textContent = i;
+        if (i === currentPage) {
+            newAnchor.classList.add("active");
+        }
+        newAnchor.addEventListener("click", function(event) {
+            event.preventDefault();
+            currentPage = parseInt(event.target.textContent);
+            renderTable(items,searchCol,col,10,currentPage);
+            paginationLayout(items,searchCol,col,currentPage);
+        });
+        div.appendChild(newLi);
+    }
+
+    
+        var newLi = document.createElement('li');
+        newLi.className = 'page-item'; // Set the class name for the new li
+        var newAnchor = document.createElement('a');
+        newAnchor.className = 'page-link'; // Set the class name for the new anchor link
+        newAnchor.href = '#'; // Set the href attribute for the anchor link
+      //  newAnchor.textContent = i; // Set the text content for the anchor link
+        newAnchor.setAttribute("aria-label", "Next");
+       
+        var span = document.createElement("span");
+        span.setAttribute("aria-hidden", "true");
+        span.textContent = "»"; // This is the &laquo; symbol
+        newAnchor.appendChild(span);
+        newLi.appendChild(newAnchor);
+        newLi.addEventListener("click", function(event) {
+            event.preventDefault();
+            currentPage++;
+           // displayData(currentPage);
+           // renderPagination();
+        });
+        div.appendChild(newLi);
+    // }
+})
+}
+function paginationLayout1(res){debugger
+    var page = Math.ceil(res/10);
+     // Get the reference to the UL element
+  var divs = document.querySelectorAll('.pagination');
+  // Create and append five new list items after the first one <li class="page-item"><a class="page-link" href="#">1</a></li>
+  divs.forEach(function(div) {
+    for (var i = 0; i < page; i++) {
+      // Get all list items within the UL
+    var lis = div.getElementsByTagName("li");
+  
+    // Calculate the index of the last list item
+    var lastLiIndex = lis.length - 1;
+      var newLi = document.createElement('li');
+      newLi.className = 'page-item'; // Set the class name for the new li
+      var newAnchor = document.createElement('a');
+      newAnchor.className = 'page-link'; // Set the class name for the new anchor link
+      newAnchor.href = '#'; // Set the href attribute for the anchor link
+      newAnchor.textContent = i + 1; // Set the text content for the anchor link
+      newLi.appendChild(newAnchor);
+      div.insertBefore(newLi, lis[lastLiIndex]);
+    }
+
+  });
 }
 
-function showDownload(){
+
+
+
+function showDownload() {
     // Creating a Button to download the displayed Data only if Data is present
     var newButton = document.createElement("button");
-    newButton.setAttribute("id","downloadBtn");
-    newButton.setAttribute("class","mutationBtn");
+    newButton.setAttribute("id", "downloadBtn");
+    newButton.setAttribute("class", "mutationBtn");
     newButton.innerText = "Download the Data";
 
-    newButton.onclick = function() {
+    newButton.onclick = function () {
         // Calling the export function
         exportTableToCSV('myTable.csv');
     };
@@ -127,7 +223,7 @@ function downloadCSV(csv, filename) {
     var downloadLink;
 
     // Assigning CSV file function
-    csvFile = new Blob([csv], {type: "text/csv"});
+    csvFile = new Blob([csv], { type: "text/csv" });
 
     // Creating a dummy Download link
     downloadLink = document.createElement("a");
@@ -159,7 +255,7 @@ function exportTableToCSV(filename) {
         for (var j = 0; j < cols.length; j++) {
             row1.push('"' + cols[j].innerText + '"');
         }
-        
+
         csv.push(row1.join(","));
         //console.log(i+" CSV-> "+csv);
     }
