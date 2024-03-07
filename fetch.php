@@ -2,10 +2,10 @@
 //echo "Debugging message: Reached this point"; // Make sure to end this statement with a semicolon
 
 // Database connection
-$host = "ttumysql.tosm.ttu.edu";
-$user = "sbsapp_seped_hplc_users";
-$password = "95a9rgknd8hA";
-$database = "sbsap_seed_hplc";
+$host = "";
+$user = "";
+$password = "";
+$database = "";
 $connection = mysqli_connect($host, $user, $password, $database);
 
 // Check database connection
